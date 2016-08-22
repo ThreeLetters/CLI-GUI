@@ -42,7 +42,7 @@ return a
 
 }
 
-}
+
 dataRecieved(key) {
 switch (this.mode) {
 case 0:
@@ -150,14 +150,15 @@ break;
 
 
 }
-centerHor(a) {
-var b = (this.width - a.length - 1) / 2
+centerHor(a,g) {
+if (!g) g = this.width
+var b = (g - a.length - 1) / 2
 var c = "";
 for (var i = 0; i < b; i++) {
 c += " ";
 }
 c += a;
-return this.fill(c,this.width)
+return this.fill(c,g)
 }
 fillscreen() {
 process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
@@ -171,7 +172,7 @@ update() {
 for (var b = 0; b < this.height; b++) {
 var current = this.current[b]
 var result = "";
-var textstyle;
+var textstyle = this.textstyle;
  if (!current) result = this.backround + this.fill("",this.width) + "\x1b[0m" + EOL; else {
 var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
 var text = (current.text) ? current.text : current;
@@ -180,9 +181,9 @@ result = backround + textstyle + text + "\x1b[0m" + EOL
 //console.log(text)
 }
 var back = (backround) ? backround : this.backround
-
+var sub = result.length - this.width
 if (this.sudolayer[b]) {
-result = result.substr(0, this.sudolayer[b].start) + this.sudolayer[b].text + back + textstyle + result.substr(this.sudolayer[b].start+this.sudolayer[b].text.length);
+result = result.substr(0, this.sudolayer[b].start + sub) + this.sudolayer[b].text + back + textstyle + result.substr(this.sudolayer[b].start+this.sudolayer[b].len + sub);
 }
 process.stdout.write(result)
  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
@@ -203,16 +204,21 @@ return str.replace(r, "$&@").split(/\s+@/)
 
 }
   createBox(height,width,content) {
-    this.prepare();
+
     var b = this.height/2 - height;
-    var c = this.wrap(content,width - 10)
+    var c = this.wrap(content,width - 3);
+// console.log(c)
     for (var i =0; i < height; i++) {
+var s = this.fill("",width);
+if (c[i]) s = this.centerHor(c[i],width)
     this.sudolayer[b] = {
-      text: '\x1b[47m\x1b[30m' + this.centerHor(c[i])
+      text: '\x1b[0m\x1b[47m\x1b[30m' + s,
       start: this.width/2 - width,
+      len: s.length
     }
     b++;
     }
+this.update()
   }
 
   prepare() {
