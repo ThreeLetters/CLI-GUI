@@ -41,6 +41,8 @@ a += " ";
 return a
 
 }
+
+}
 dataRecieved(key) {
 switch (this.mode) {
 case 0:
@@ -165,15 +167,19 @@ process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
 process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 }
 update() {
- process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
+ process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
 for (var b = 0; b < this.height; b++) {
 var current = this.current[b]
- if (!current) process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" + EOL); else {
+var result = "";
+ if (!current) result = this.backround + this.fill("",this.width) + "\x1b[0m" + EOL; else {
 var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
 var text = (current.text) ? current.text : current;
 var textstyle = (current.textstyle) ? current.textstyle : this.textstyle
-process.stdout.write(backround + textstyle + text + "\x1b[0m" + EOL)
+result = backround + textstyle + text + "\x1b[0m" + EOL
 //console.log(text)
+}
+if (this.sudolayer[b]) {
+result = result.substr(0, this.sudolayer[b].start) + this.sudolayer[b].text + result.substr(this.sudolayer[b].start+this.sudolayer[b].text.length);
 }
  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 
