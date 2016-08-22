@@ -17,7 +17,9 @@ this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
 this.stdin.setEncoding('utf8');
-
+process.stdout.on('resize', function() { 
+  this.update()
+}.bind(this))
 this.stdin.on('data', function(key){
    this.dataRecieved(key)
 
