@@ -8,7 +8,8 @@ this.width = process.stdout.columns
   }
   fill(a,b) {
 a = a.toString()
-for (var i = 0; i < b - a.length + 1; i++) {
+var c = b - a.length + 1
+for (var i = 0; i < c; i++) {
 a += " ";
 
 }
@@ -16,17 +17,17 @@ return a
 
 }
 fillscreen() {
-  this.height.forEach((a)=>{
-     process.stdout.write("\u001B[44m" + fill("",this.width) + EOL)
-    
-  })
-  
-}
-  start() {
-this.fillscreen()  
-  
+  for (var b= 0; b < this.height/2; b++) {
+     process.stdout.write("\u001B[44m" + this.fill("",this.width) + EOL)
   }
+}
+  prepare() {
+this.fillscreen()  
+  this.fillscreen()  
+  }
+  list() {
 
+  }
 
 
 }
