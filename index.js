@@ -13,6 +13,7 @@ this.index = 0;
 this.mode = false;
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
+this.typed = "";
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -116,6 +117,18 @@ this.update()
 }
 }
 break;
+case 2: 
+  if (key == '\u000D') {
+    this.callbacks(this.typed)
+    
+  } else
+  if (key && key.name) {
+    this.typed += key.name
+    this.current[this.index].text = this.typed
+    this.update()
+  }
+  
+break;
 default:
 
 break;
@@ -148,7 +161,8 @@ var current = this.current[b]
  if (!current) process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" + EOL); else {
 var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
 var text = (current.text) ? current.text : current;
-process.stdout.write(backround + this.textstyle + text + "\x1b[0m" + EOL)
+var textstyle = (current.textstyle) ? current.textstyle : this.textstyle
+process.stdout.write(backround + textstyle + text + "\x1b[0m" + EOL)
 //console.log(text)
 }
  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
@@ -181,7 +195,15 @@ this.stdin.pause()
     this.current[Math.floor(this.height/2) - 3] = this.centerHor(title);
     this.current[Math.floor(this.height/2) - 2] = this.fill(desc,this.width)
     this.mode = 2;
-    
+    this.index = Math.floor(this.height/2)
+    this.current[this.index] = {
+      text: "",
+      BGcheck: function(self) {
+        return true
+      }
+      BG:'\e[40m',
+      textStyle:'\e[97m'
+    }
   }
   checkList(title,options,callbacks) {
 this.prepare();
