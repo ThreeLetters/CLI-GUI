@@ -8,9 +8,10 @@ this.width = process.stdout.columns
 this.current = [];
 this.option = 0;
 this.options = [];
-this.callbacks = [];
+this.callbacks = false;
 this.index = 0;
 this.mode = false;
+this.sudolayer = [];
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
 this.typed = "";
@@ -67,18 +68,6 @@ this.callbacks(this.option)
 this.prepare()
 
 }
-function toUnicode(theString) {
-  var unicodeString = '';
-  for (var i=0; i < theString.length; i++) {
-    var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
-    while (theUnicode.length < 4) {
-      theUnicode = '0' + theUnicode;
-    }
-    theUnicode = '\\u' + theUnicode;
-    unicodeString += theUnicode;
-  }
-  return unicodeString;
-}
 // console.log(toUnicode(key))  
 break;
 case 1:
@@ -95,6 +84,7 @@ if (this.options[this.option] && this.options[this.option].onSelection) this.opt
 this.update()    
 }
 }
+
 if (key == '\u000D') {
 if (this.option  == this.options.length) {
 if (typeof this.callbacks == "object") {
@@ -118,16 +108,36 @@ this.update()
 }
 break;
 case 2: 
+if (key == '\u001B\u005B\u0041') return;
   if (key == '\u000D') {
-    this.callbacks(this.typed)
-    
-  } else
-  if (key && key.name) {
-    this.typed += key.name
+    if (this.callbacks) this.callbacks(this.typed)
+    this.prepare()
+  } else if (key == '\u007F' && this.typed.length > 1) {
+ this.typed = this.typed.substring(0, this.typed.length - 1);
+ this.current[this.index].text = this.typed
+    this.update()
+} else 
+  if (key) {
+    this.typed += key
     this.current[this.index].text = this.typed
     this.update()
   }
   
+break;
+case 100:
+function toUnicode(theString) {
+  var unicodeString = '';
+  for (var i=0; i < theString.length; i++) {
+    var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
+    while (theUnicode.length < 4) {
+      theUnicode = '0' + theUnicode;
+    }
+    theUnicode = '\\u' + theUnicode;
+    unicodeString += theUnicode;
+  }
+  return unicodeString;
+}
+console.log(toUnicode(key));
 break;
 default:
 
@@ -183,7 +193,7 @@ this.width = process.stdout.columns
 this.current = [];
 this.option = 0;
 this.options = [];
-this.callbacks = [];
+this.callbacks = false;
 this.index = 0;
 this.mode = false;
 this.stdin.pause()
@@ -197,13 +207,14 @@ this.stdin.pause()
     this.mode = 2;
     this.index = Math.floor(this.height/2)
     this.current[this.index] = {
-      text: "",
+      text: " ",
       BGcheck: function(self) {
         return true
-      }
-      BG:'\e[40m',
-      textStyle:'\e[97m'
+      },
+      BG: "\x1b[40m",
+      textstyle:"\x1b[37m"
     }
+this.update()
   }
   checkList(title,options,callbacks) {
 this.prepare();
