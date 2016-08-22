@@ -171,16 +171,20 @@ update() {
 for (var b = 0; b < this.height; b++) {
 var current = this.current[b]
 var result = "";
+var textstyle;
  if (!current) result = this.backround + this.fill("",this.width) + "\x1b[0m" + EOL; else {
 var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
 var text = (current.text) ? current.text : current;
-var textstyle = (current.textstyle) ? current.textstyle : this.textstyle
+textstyle = (current.textstyle) ? current.textstyle : this.textstyle
 result = backround + textstyle + text + "\x1b[0m" + EOL
 //console.log(text)
 }
+var back = (backround) ? backround : this.backround
+
 if (this.sudolayer[b]) {
-result = result.substr(0, this.sudolayer[b].start) + this.sudolayer[b].text + result.substr(this.sudolayer[b].start+this.sudolayer[b].text.length);
+result = result.substr(0, this.sudolayer[b].start) + this.sudolayer[b].text + back + textstyle + result.substr(this.sudolayer[b].start+this.sudolayer[b].text.length);
 }
+process.stdout.write(result)
  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 
 
@@ -193,6 +197,24 @@ process.stdout.write("\u001b[2J\u001b[0;0H");
      process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
   }
 }
+wrap(str,width) {
+  var r = new RegExp('/.{' + width + '}\S*\s+/g')
+return str.replace(r, "$&@").split(/\s+@/)
+
+}
+  createBox(height,width,content) {
+    this.prepare();
+    var b = this.height/2 - height;
+    var c = this.wrap(content,width - 10)
+    for (var i =0; i < height; i++) {
+    this.sudolayer[b] = {
+      text: '\x1b[47m\x1b[30m' + this.centerHor(c[i])
+      start: this.width/2 - width,
+    }
+    b++;
+    }
+  }
+
   prepare() {
 this.width = process.stdout.columns    
    this.height = process.stdout.rows
@@ -200,6 +222,8 @@ this.current = [];
 this.option = 0;
 this.options = [];
 this.callbacks = false;
+this.sudolayer = [];
+this.typed = "";
 this.index = 0;
 this.mode = false;
 this.stdin.pause()
