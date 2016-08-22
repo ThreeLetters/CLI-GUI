@@ -18,6 +18,8 @@ this.stdin.setRawMode(true);
 this.stdin.resume();
 this.stdin.setEncoding('utf8');
 process.stdout.on('resize', function() { 
+  this.width = process.stdout.columns    
+   this.height = process.stdout.rows
   this.update()
 }.bind(this))
 this.stdin.on('data', function(key){
