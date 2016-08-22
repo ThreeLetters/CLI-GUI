@@ -202,6 +202,7 @@ this.stdin.pause()
   prompt(title,desc,callback) {
     this.prepare();
     this.stdin.resume();
+    this.callbacks = callback
     this.current[Math.floor(this.height/2) - 3] = this.centerHor(title);
     this.current[Math.floor(this.height/2) - 2] = this.fill(desc,this.width)
     this.mode = 2;
