@@ -232,7 +232,7 @@ index: false,
 selected: (option.selected) ? option.selected : false,
 description: (option.description) ? option.description : false,
 onSelection: function(self) {
-if (!this.description) return self.current[self.index + self.options.length + 3] = false;
+if (!this.description) return self.current[self.index + self.options.length + 4] = false;
 
 self.current[self.index + self.options.length + 4] = self.fill(this.description,self.width) 
  
