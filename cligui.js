@@ -15,10 +15,10 @@ this.prev = false;
 this.boxes = [];
 this.mode = false;
 this.layers = [];
-this.sudolayer = [];
+this.typed = "";
+this.dontreset = false;
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
-this.typed = "";
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -296,12 +296,14 @@ this.current = [];
 this.option = 0;
 this.options = [];
 this.callbacks = false;
-this.sudolayer = [];
-this.typed = "";
 this.index = 0;
+this.prev = false;
+this.boxes = [];
 this.mode = false;
+this.layers = [];
+this.typed = "";
 this.stdin.pause()
-  this.fillscreen()  
+ if (!this.dontreset) this.fillscreen()  
   }
   prompt(title,desc,callback) {
     this.prepare();
