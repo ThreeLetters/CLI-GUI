@@ -206,7 +206,8 @@ for (var k = 0;k<this.layers.length;k++) {
 if (!this.layers[k]) continue;
 if (this.layers[k][b]) {
 var sub = result.length - this.width
-result = result.substr(0, this.layers[k][b].start + sub) + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
+var BG = (this.layers[k][b].BGcheck && this.layers[k][b].BGcheck(this.boxes[k])) ? this.layers[k][b].BG : this.layers[k][b].defaultBG
+result = result.substr(0, this.layers[k][b].start + sub) + BG + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
 }
 }
 process.stdout.write(result)
@@ -275,9 +276,10 @@ if (c[i]) s = this.centerHor(c[i],width)
 var h = this.getNewLayer()
     
     this.layers[h][b] = {
-      text: '\x1b[0m\x1b[47m\x1b[30m' + s,
+      text: s,
       start: this.width/2 - width,
-      len: width
+      len: width,
+      defaultBG: '\x1b[0m\x1b[47m\x1b[30m'
     }
     b++;
     }
