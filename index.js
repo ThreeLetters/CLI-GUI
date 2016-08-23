@@ -129,6 +129,24 @@ if (key == '\u001B\u005B\u0041') return;
   }
   
 break;
+case 3:
+  var box = this.boxes[0]
+ if (key == '\u001B\u005B\u0041') {
+        if (box.option > 0) { box.option --;
+this.update()    
+}
+   }
+    if (key == '\u001B\u005B\u0042') {
+
+        if (box.option < box.options.length - 1) { box.option ++; 
+this.update()    
+}
+}
+if (key == '\u000D') {
+if (box.options[box.option]) box.options[box.option].onSelect(box)
+
+} 
+  break;
 case 100:
 function toUnicode(theString) {
   var unicodeString = '';
