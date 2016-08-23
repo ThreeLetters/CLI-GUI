@@ -23,6 +23,8 @@ remove() {
 this.main.layers[this.index] = false;
 this.main.boxes[this.index] = false;
 this.main.sortLayers()
+if (!this.main.boxes[0] && this.main.prev) this.main.mode = this.main.prev
+this.main.prev = false
 }
 
 genOpt() {
