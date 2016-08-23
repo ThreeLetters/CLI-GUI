@@ -9,7 +9,7 @@ this.index = false;
 this.top = top
 this.start = start;
 this.main = main
-this.selected = 0;
+this.option = 0;
 if (!this.options) this.genOpt()
   
 }
