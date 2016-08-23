@@ -11,6 +11,7 @@ this.options = [];
 this.callbacks = false;
 this.index = 0;
 this.mode = false;
+this.layers = [];
 this.sudolayer = [];
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
@@ -181,9 +182,12 @@ result = backround + textstyle + text + "\x1b[0m" + EOL
 //console.log(text)
 }
 var back = (backround) ? backround : this.backround
+for (var k = 0;k<this.layers.length;k++) {
+if (!this.layers[k]) continue;
+if (this.layers[k][b]) {
 var sub = result.length - this.width
-if (this.sudolayer[b]) {
-result = result.substr(0, this.sudolayer[b].start + sub) + this.sudolayer[b].text + back + textstyle + result.substr(this.sudolayer[b].start+this.sudolayer[b].len + sub);
+result = result.substr(0, this.layers[k][b].start + sub) + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
+}
 }
 process.stdout.write(result)
  process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
@@ -203,6 +207,24 @@ wrap(str,width) {
 return str.replace(r, "$&@").split(/\s+@/)
 
 }
+sortLayers() {
+  var final = [];
+  var last = 0;
+  for (var i = 0; i < this.layers.length ; i++) {
+    if (!this.layers[i]) continue;
+    final[last] = this.layers[i];
+    last ++
+  }
+  this.layers = final
+  this.next = last;
+}
+getNewLayer() {
+  this.sortLayers()
+  
+  this.layers[this.next] = [];
+  this.next ++;
+  return this.next - 1
+}
   createBox(height,width,content) {
 
     var b = this.height/2 - height;
@@ -211,10 +233,11 @@ return str.replace(r, "$&@").split(/\s+@/)
     for (var i =0; i < height; i++) {
 var s = this.fill("",width);
 if (c[i]) s = this.centerHor(c[i],width)
-    this.sudolayer[b] = {
+var h = this.getNewLayer()
+    this.layers[h][b] = {
       text: '\x1b[0m\x1b[47m\x1b[30m' + s,
       start: this.width/2 - width,
-      len: s.length
+      len: width
     }
     b++;
     }
