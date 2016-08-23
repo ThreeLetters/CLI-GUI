@@ -1,5 +1,6 @@
 "use strict"
 const EOL = require('os').EOL;
+const Box = require('./Box.js')
 module.exports = class cligui {
   
   constructor() {
@@ -239,15 +240,18 @@ getNewLayer() {
   this.next ++;
   return this.next - 1
 }
-  createBox(height,width,content) {
+  createInfoBox(height,width,content) {
 
     var b = this.height/2 - height;
     var c = this.wrap(content,width - 3);
+    this.mode = 4;
 // console.log(c)
+    var box = new Box()
     for (var i =0; i < height; i++) {
 var s = this.fill("",width);
 if (c[i]) s = this.centerHor(c[i],width)
 var h = this.getNewLayer()
+    
     this.layers[h][b] = {
       text: '\x1b[0m\x1b[47m\x1b[30m' + s,
       start: this.width/2 - width,
