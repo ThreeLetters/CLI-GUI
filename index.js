@@ -267,7 +267,9 @@ getNewLayer() {
 
     var b = this.height/2 - height;
     var c = this.wrap(content,width - 3);
-    this.mode = 4;
+  if (this.mode != 3) this.prev = this.mode
+    this.mode = 3;
+  
 // console.log(c)
     var box = new Box()
     for (var i =0; i < height; i++) {
