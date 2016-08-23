@@ -10,8 +10,9 @@ this.main = main
 this.selected = 0;
 }
 remove() {
-this.main.layers[this.index] = [];
-this.main.reSortLayers()
+this.main.layers[this.index] = false;
+this.main.boxes[this.index] = false;
+this.main.sortLayers()
 }
 
 
