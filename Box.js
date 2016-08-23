@@ -27,7 +27,7 @@ this.main.sortLayers()
 
 genOpt() {
   var a = this.top + this.height
-  this.main.layers[this.index][a] = SelectionInterface(this.main.centerHor("[Close]",this.width))
+  this.main.layers[this.index][a] = SelectionInterface(this.main.centerHor("[Close]",this.width),0)
   this.options[0] = {
     text: this.main.centerHor("[Close]",this.width),
     opt: "[Close]",
