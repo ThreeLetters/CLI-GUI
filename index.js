@@ -11,6 +11,7 @@ this.option = 0;
 this.options = [];
 this.callbacks = false;
 this.index = 0;
+this.boxes = [];
 this.mode = false;
 this.layers = [];
 this.sudolayer = [];
@@ -227,9 +228,12 @@ sortLayers() {
   var last = 0;
   for (var i = 0; i < this.layers.length ; i++) {
     if (!this.layers[i]) continue;
+    lfinal[last] = this.boxes[i];
+    this.boxes[i].index = last
     final[last] = this.layers[i];
     last ++
   }
+  this.boxes = lfinal
   this.layers = final
   this.next = last;
 }
