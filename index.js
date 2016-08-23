@@ -11,6 +11,7 @@ this.option = 0;
 this.options = [];
 this.callbacks = false;
 this.index = 0;
+this.prev = false;
 this.boxes = [];
 this.mode = false;
 this.layers = [];
