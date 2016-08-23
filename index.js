@@ -202,9 +202,23 @@ process.stdout.write("\u001b[2J\u001b[0;0H");
      process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
   }
 }
-wrap(str,width) {
-  var r = new RegExp('/.{' + width + '}\S*\s+/g')
-return str.replace(r, "$&@").split(/\s+@/)
+wrap(string,step) {
+ var length = string.length,
+    array = [],
+    i = 0,
+    j;
+
+while (i < length) {
+    j = string.indexOf(" ", i + step);
+    if (j === -1) {
+        j = length;
+    }
+
+    array.push(string.slice(i, j));
+    i = j;
+}
+
+return array;
 
 }
 sortLayers() {
