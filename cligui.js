@@ -207,6 +207,7 @@ for (var k = 0;k<this.layers.length;k++) {
 if (!this.layers[k]) continue;
 if (this.layers[k][b]) {
 var sub = result.length - this.width
+var ff = (this.layers[k][b].selectonly) ? back : ""
 var BG = (this.layers[k][b].BGcheck && this.layers[k][b].BGcheck(this.boxes[k])) ? this.layers[k][b].BG : this.layers[k][b].defaultBG
 result = result.substr(0, this.layers[k][b].start + sub) + BG + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
 }
