@@ -207,9 +207,40 @@ for (var k = 0;k<this.layers.length;k++) {
 if (!this.layers[k]) continue;
 if (this.layers[k][b]) {
 var sub = result.length - this.width
-var ff = (this.layers[k][b].selectonly) ? back : ""
+if (this.layers[k][b].selectonly) {
+  var layer = this.layers[k][b];
+var final = "";
+var eww = false;
+  layer.options.forEach((opt)=>{
+    var BG = (opt.BGcheck && opt.BGcheck(this.boxes[k])) ? opt.BG : layer.defaultBG
+    var ref = (eww) ? " " : "";
+    eww = true
+final += ref + BG + opt + layer.defaultBG    
+    
+    
+  })
+var fin = this.wrap(final,layer.width),layer.width;
+var efee = fin[1].split(" ").length + 1;
+result = result.substr(0, this.layers[k][b].start + sub) + this.centerPos(fin[0],layer.width) + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
+if (fin[1]) {
+  var y = b + 1
+  for (var f = 1; f < fin.length f++) {
+    this.layers[k][y] = {
+      start: layer.start,
+      selectonly: true,
+      options: layer.options.slice(efee),
+      width: layer.width
+    }
+    y++;
+  }
+  
+}
+  
+} else {
 var BG = (this.layers[k][b].BGcheck && this.layers[k][b].BGcheck(this.boxes[k])) ? this.layers[k][b].BG : this.layers[k][b].defaultBG
 result = result.substr(0, this.layers[k][b].start + sub) + BG + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
+}
+  
 }
 }
 process.stdout.write(result)
