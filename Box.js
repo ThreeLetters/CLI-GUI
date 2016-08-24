@@ -29,7 +29,7 @@ this.main.prev = false
 
 genOpt() {
   var a = this.top + this.height
-  this.main.layers[this.index][a] = SelectionInterface(this.main.centerHor("[Close]",this.width),0,{start: this.main.width/2 - this.width,
+  this.main.layers[this.index][a] = SelectionInterface(this.main.centerHor("[Close]",this.width),0,{selectonly: true,start: this.main.width/2 - this.width,
       len: this.width,
       defaultBG: '\x1b[0m\x1b[47m\x1b[30m'})
   this.options[0] = {
