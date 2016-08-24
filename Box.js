@@ -13,6 +13,24 @@ this.option = 0;
 if (!this.options) this.genOpt()
   
 }
+onKey(key) {
+   if (key == '\u001B\u005B\u0041') {
+        if (this.option > 0) { this.option --;
+this.main.update()    
+}
+   }
+    if (key == '\u001B\u005B\u0042') {
+
+        if (this.option < this.options.length - 1) { this.option ++; 
+this.main.update()    
+}
+}
+if (key == '\u000D') {
+if (this.options[this.option]) this.options[this.option].onSelect(this)
+
+} 
+  
+}
 runOpt(opt) {
   if (!this.options[opt] || !this.options[opt].onSelect) return;
   var b = this.options[opt].onSelect()
