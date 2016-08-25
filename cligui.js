@@ -1,6 +1,7 @@
 "use strict"
 const EOL = require('os').EOL;
 const Box = require('./Box.js')
+const InputHandler = require('./InputHandler.js')
 module.exports = class cligui {
   
   constructor() {
@@ -19,6 +20,7 @@ this.typed = "";
 this.dontreset = false;
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
+this.inputHandler = new InputHandler(this); 
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -35,133 +37,10 @@ this.stdin.on('data', function(key){
     if (key == '\u0003') { process.exit(); }    // ctrl-c
 }.bind(this));
   }
-  fill(a,b,k) {
-a = a.toString()
-if (!k) k = a.length
-var c = b - k
-for (var i = 0; i < c; i++) {
-a += " ";
-
-}
-return a
-
-}
 
 
 dataRecieved(key) {
-switch (this.mode) {
-case 0:
- if (key == '\u001B\u005B\u0041') {
-        if (this.option > 0) { this.option --;
-if (this.options[this.option].onSelection) this.options[this.option].onSelection(this)
-this.update()    
-}
-   }
-    if (key == '\u001B\u005B\u0042') {
-
-        if (this.option < this.options.length - 1) { this.option ++; 
-if (this.options[this.option].onSelection) this.options[this.option].onSelection(this)
-this.update()    
-}
-}
-if (key == '\u000D') {
-
-if (typeof this.callbacks == "object") {
-if (this.callbacks[this.option]) this.callbacks[this.option]()
-} else if (typeof this.callbacks == "function") {
-this.callbacks(this.option)
-
-}
-this.prepare()
-
-}
-// console.log(toUnicode(key))  
-break;
-case 1:
- if (key == '\u001B\u005B\u0041') {
-        if (this.option > 0) { this.option --;
-if (this.options[this.option] && this.options[this.option].onSelection) this.options[this.option].onSelection(this)
-this.update()    
-}
-   }
-    if (key == '\u001B\u005B\u0042') {
-
-        if (this.option < this.options.length) { this.option ++; 
-if (this.options[this.option] && this.options[this.option].onSelection) this.options[this.option].onSelection(this)
-this.update()    
-}
-}
-
-if (key == '\u000D') {
-if (this.option  == this.options.length) {
-if (typeof this.callbacks == "object") {
-this.options.forEach((option)=>{
-if (!option.selected) return;
-if (this.callbacks[option.id]) this.callbacks[option.id]()
-});
-} else if (typeof this.callbacks == "function") {
-var r = [];
-this.options.forEach((option)=>{
-if (option.selected) r.push(option.id)
-});
-this.callbacks(r)
-
-}
-this.prepare()
-} else {
-this.options[this.option].onSelect(this)
-this.update()
-}
-}
-break;
-case 2: 
-if (key == '\u001B\u005B\u0041') return;
-  if (key == '\u000D') {
-    if (this.callbacks) this.callbacks(this.typed)
-    this.prepare()
-  } else if (key == '\u007F' && this.typed.length > 1) {
- this.typed = this.typed.substring(0, this.typed.length - 1);
- this.current[this.index].text = this.typed
-    this.update()
-} else 
-  if (key) {
-    this.typed += key
-    this.current[this.index].text = this.typed
-    this.update()
-  }
-  
-break;
-case 3:
-if (this.boxes[0]) {
- if (this.boxes[0].onKey(key) == "reset") {
-   this.mode = this.prev;
-   this.prev = false
- }
-}
-  break;
-case 100:
-function toUnicode(theString) {
-  var unicodeString = '';
-  for (var i=0; i < theString.length; i++) {
-    var theUnicode = theString.charCodeAt(i).toString(16).toUpperCase();
-    while (theUnicode.length < 4) {
-      theUnicode = '0' + theUnicode;
-    }
-    theUnicode = '\\u' + theUnicode;
-    unicodeString += theUnicode;
-  }
-  return unicodeString;
-}
-console.log(toUnicode(key));
-break;
-default:
-
-break;
-
-
-}
-
-
+this.inputHandler.dataRecieved(key)
 }
 centerHor(a,g,k) {
 if (!g) g = this.width
@@ -175,6 +54,35 @@ c += " ";
 c += a;
 return this.fill(c,g,c.length - f)
 }
+ fill(a,b,k) {
+a = a.toString()
+if (!k) k = a.length
+var c = b - k
+for (var i = 0; i < c; i++) {
+a += " ";
+}
+return a
+}
+wrap(string,maxlen) {
+var results = [];
+while (0==0) {
+if (string.length < maxlen) {
+results.push(string);
+break;
+}
+var s = string.substring(0,maxlen);
+var index = s.lastIndexOf(" ");
+if (index != -1) {
+results.push(s.substring(0,index))
+string = string.substring(index + 1)
+} else {
+results.push(string);
+break;
+}}
+return results;
+}
+
+
 fillscreen() {
 process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
   for (var b= 0; b < this.height; b++) {
@@ -260,29 +168,7 @@ process.stdout.write("\u001b[2J\u001b[0;0H");
      process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
   }
 }
-wrap(string,maxlen) {
-var results = [];
 
-while (0==0) {
-if (string.length < maxlen) {
-results.push(string);
-break;
-}
-var s = string.substring(0,maxlen);
-var index = s.lastIndexOf(" ");
-if (index != -1) {
-results.push(s.substring(0,index))
-string = string.substring(index + 1)
-} else {
-results.push(string);
-break;
-}
-}
-
-
-return results;
-
-}
 removeBox(id) {
 this.layers[id] = false;
 this.boxes[id] = false;
