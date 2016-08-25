@@ -2,7 +2,7 @@
   "name": "cli-gui",
   "version": "2.0.0",
   "description": "An easy way to have a graphical interface through command line",
-  "main": "index.js",
+  "main": "/lib/cligui.js",
   "scripts": {
     "test": "node index.js"
   },
