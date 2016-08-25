@@ -1,7 +1,9 @@
 "use strict"
 const EOL = require('os').EOL;
-const Box = require('./Box.js')
-const InputHandler = require('./InputHandler.js')
+const Box = require('./Box.js');
+const InputHandler = require('./InputHandler.js');
+const Utilities = require('./Utilities.js');
+const VisualService = require('./VisualService.js')
 module.exports = class cligui {
   
   constructor() {
@@ -20,7 +22,8 @@ this.typed = "";
 this.dontreset = false;
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
-this.inputHandler = new InputHandler(this); 
+this.inputHandler = new InputHandler(this);
+this.util = new Utilities(this)
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -43,43 +46,13 @@ dataRecieved(key) {
 this.inputHandler.dataRecieved(key)
 }
 centerHor(a,g,k) {
-if (!g) g = this.width
-if (!k) k = a.length
-var f = Math.abs(a.length - k)
-var b = (g - k - 1) / 2
-var c = "";
-for (var i = 0; i < b; i++) {
-c += " ";
-}
-c += a;
-return this.fill(c,g,c.length - f)
+return this.util.centerHor(a,g,k)
 }
  fill(a,b,k) {
-a = a.toString()
-if (!k) k = a.length
-var c = b - k
-for (var i = 0; i < c; i++) {
-a += " ";
-}
-return a
+return this.util.fill(a,b,k);
 }
 wrap(string,maxlen) {
-var results = [];
-while (0==0) {
-if (string.length < maxlen) {
-results.push(string);
-break;
-}
-var s = string.substring(0,maxlen);
-var index = s.lastIndexOf(" ");
-if (index != -1) {
-results.push(s.substring(0,index))
-string = string.substring(index + 1)
-} else {
-results.push(string);
-break;
-}}
-return results;
+return this.util.wrap(string,maxlen)
 }
 
 
