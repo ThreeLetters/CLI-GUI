@@ -24,6 +24,7 @@ this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
 this.inputHandler = new InputHandler(this);
 this.util = new Utilities(this)
+this.visual = new VisualService(this);
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -57,89 +58,13 @@ return this.util.wrap(string,maxlen)
 
 
 fillscreen() {
-process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
-  for (var b= 0; b < this.height; b++) {
-     process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
-  }
-process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
+return this.visual.fillscreen()
 }
 update() {
-var debug = true;
-var debug = false;
-if (!debug) process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
-for (var b = 0; b < this.height; b++) {
-var current = this.current[b]
-var result = "";
-var textstyle = this.textstyle;
- if (!current) result = this.backround + this.fill("",this.width) + "\x1b[0m" + EOL; else {
-var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
-var text = (current.text) ? current.text : current;
-textstyle = (current.textstyle) ? current.textstyle : this.textstyle
-result = backround + textstyle + text + EOL
-//console.log(text)
-}
-var back = (backround) ? backround : this.backround
-for (var k = 0;k<this.layers.length;k++) {
-if (!this.layers[k]) continue;
-if (this.layers[k][b]) {
-var sub = result.length - this.width
-if (this.layers[k][b].selectonly) {
-  var layer = this.layers[k][b];
-var final = "";
-var eww = false;
-var char = 0;
-var abc = 0;
-var stopped = false;
-  layer.options.every((opt,ina)=>{
-    var BG = (opt.BGcheck && opt.BGcheck(this.boxes[k])) ? opt.BG : layer.defaultBG
-    var ref = (eww) ? " " : "";
-    eww = true
-if (char >= layer.width) {
-stopped = ini
-
-return false;
-}
-abc += opt.opt.length
-final += ref + BG + opt.opt + layer.defaultBG
-    char += opt.opt.length;
-    return true
-  })
-// throw "s"
-if (debug) console.log(this.centerHor(final,layer.width,abc))
-result = result.substr(0, layer.start + sub) + layer.defaultBG + this.centerHor(final,layer.width,abc) + back + textstyle + result.substr(layer.start+layer.len + sub);
-if (stopped) {
-  var y = b + 1
-    this.layers[k][y] = {
-      start: layer.start,
-      selectonly: true,
-      options: layer.options.slice(stopped),
-      width: layer.width
-    }
-   
-  
-  
-}
-  
-} else {
-var BG = (this.layers[k][b].BGcheck && this.layers[k][b].BGcheck(this.boxes[k])) ? this.layers[k][b].BG : this.layers[k][b].defaultBG
-if (debug) console.log(this.layers[k][b].text)
-result = result.substr(0, this.layers[k][b].start + sub) + BG + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
-}
-  
-}
-}
-if (!debug) process.stdout.write(result)
-if (!debug) process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
-
-
-}
-
+return this.visual.update()
 }
 init() {
-process.stdout.write("\u001b[2J\u001b[0;0H");
- for (var b= 0; b < this.height; b++) {
-     process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
-  }
+return this.visual.init();
 }
 
 removeBox(id) {
