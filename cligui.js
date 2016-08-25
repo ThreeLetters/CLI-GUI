@@ -35,9 +35,10 @@ this.stdin.on('data', function(key){
     if (key == '\u0003') { process.exit(); }    // ctrl-c
 }.bind(this));
   }
-  fill(a,b) {
+  fill(a,b,k) {
 a = a.toString()
-var c = b - a.length
+if (!k) k = a.length
+var c = b - k
 for (var i = 0; i < c; i++) {
 a += " ";
 
@@ -162,15 +163,17 @@ break;
 
 
 }
-centerHor(a,g) {
+centerHor(a,g,k) {
 if (!g) g = this.width
-var b = (g - a.length - 1) / 2
+if (!k) k = a.length
+var f = Math.abs(a.length - k)
+var b = (g - k - 1) / 2
 var c = "";
 for (var i = 0; i < b; i++) {
 c += " ";
 }
 c += a;
-return this.fill(c,g)
+return this.fill(c,g,c.length - f)
 }
 fillscreen() {
 process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
@@ -180,7 +183,9 @@ process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r")
 process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 }
 update() {
- process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
+var debug = true;
+var debug = false;
+if (!debug) process.stdout.write("\x1b[0m\u001B[s\u001B[H\u001B[6r");
 for (var b = 0; b < this.height; b++) {
 var current = this.current[b]
 var result = "";
@@ -201,40 +206,49 @@ if (this.layers[k][b].selectonly) {
   var layer = this.layers[k][b];
 var final = "";
 var eww = false;
-  layer.options.forEach((opt)=>{
+var char = 0;
+var abc = 0;
+var stopped = false;
+  layer.options.every((opt,ina)=>{
     var BG = (opt.BGcheck && opt.BGcheck(this.boxes[k])) ? opt.BG : layer.defaultBG
     var ref = (eww) ? " " : "";
     eww = true
-final += ref + BG + opt + layer.defaultBG    
-    
-    
+if (char >= layer.width) {
+stopped = ini
+
+return false;
+}
+abc += opt.opt.length
+final += ref + BG + opt.opt + layer.defaultBG
+    char += opt.opt.length;
+    return true
   })
-var fin = this.wrap(final,layer.width),layer.width;
-var efee = fin[1].split(" ").length + 1;
-result = result.substr(0, this.layers[k][b].start + sub) + this.centerPos(fin[0],layer.width) + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
-if (fin[1]) {
+// throw "s"
+if (debug) console.log(this.centerHor(final,layer.width,abc))
+result = result.substr(0, layer.start + sub) + layer.defaultBG + this.centerHor(final,layer.width,abc) + back + textstyle + result.substr(layer.start+layer.len + sub);
+if (stopped) {
   var y = b + 1
-  for (var f = 1; f < fin.length f++) {
     this.layers[k][y] = {
       start: layer.start,
       selectonly: true,
-      options: layer.options.slice(efee),
+      options: layer.options.slice(stopped),
       width: layer.width
     }
-    y++;
-  }
+   
+  
   
 }
   
 } else {
 var BG = (this.layers[k][b].BGcheck && this.layers[k][b].BGcheck(this.boxes[k])) ? this.layers[k][b].BG : this.layers[k][b].defaultBG
+if (debug) console.log(this.layers[k][b].text)
 result = result.substr(0, this.layers[k][b].start + sub) + BG + this.layers[k][b].text + back + textstyle + result.substr(this.layers[k][b].start+this.layers[k][b].len + sub);
 }
   
 }
 }
-process.stdout.write(result)
- process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
+if (!debug) process.stdout.write(result)
+if (!debug) process.stdout.write("\x1b[0m\u001B[0m\u001B[u");
 
 
 }
@@ -246,28 +260,41 @@ process.stdout.write("\u001b[2J\u001b[0;0H");
      process.stdout.write(this.backround + this.fill("",this.width) + "\x1b[0m" +  EOL)
   }
 }
-wrap(string,step) {
- var length = string.length,
-    array = [],
-    i = 0,
-    j;
+wrap(string,maxlen) {
+var results = [];
 
-while (i < length) {
-    j = string.indexOf(" ", i + step);
-    if (j === -1) {
-        j = length;
-    }
-
-    array.push(string.slice(i, j));
-    i = j;
+while (0==0) {
+if (string.length < maxlen) {
+results.push(string);
+break;
+}
+var s = string.substring(0,maxlen);
+var index = s.lastIndexOf(" ");
+if (index != -1) {
+results.push(s.substring(0,index))
+string = string.substring(index + 1)
+} else {
+results.push(string);
+break;
+}
 }
 
-return array;
 
+return results;
+
+}
+removeBox(id) {
+this.layers[id] = false;
+this.boxes[id] = false;
+this.sortLayers()
+if (!this.boxes[0]) this.mode = this.prev
+this.prev = false
+this.update()
 }
 sortLayers() {
   var final = [];
   var last = 0;
+var lfinal = [];
   for (var i = 0; i < this.layers.length ; i++) {
     if (!this.layers[i]) continue;
     lfinal[last] = this.boxes[i];
@@ -288,27 +315,30 @@ getNewLayer() {
 }
   createInfoBox(height,width,content) {
 
-    var b = this.height/2 - height;
-    var c = this.wrap(content,width - 3);
+    var b = Math.floor(this.height/2) - height;
+    var c = this.wrap(content,width - 2);
   if (this.mode != 3) this.prev = this.mode
     this.mode = 3;
-  
-// console.log(c)
-    var box = new Box()
+var h = this.getNewLayer()  
+    var box = new Box(width,height,b,Math.floor(this.width/2 - width),false,h,this)
+this.boxes[h] = box
     for (var i =0; i < height; i++) {
 var s = this.fill("",width);
 if (c[i]) s = this.centerHor(c[i],width)
-var h = this.getNewLayer()
+
     
     this.layers[h][b] = {
       text: s,
-      start: this.width/2 - width,
+      start: Math.floor(this.width/2 - width),
       len: width,
       defaultBG: '\x1b[0m\x1b[47m\x1b[30m'
     }
     b++;
     }
+
+
 this.update()
+// console.log(this.layers)
   }
 
   prepare() {
