@@ -194,7 +194,7 @@ var textstyle = this.textstyle;
 var backround = (current.BGcheck && current.BGcheck(this)) ? current.BG : this.backround
 var text = (current.text) ? current.text : current;
 textstyle = (current.textstyle) ? current.textstyle : this.textstyle
-result = backround + textstyle + text + "\x1b[0m" + EOL
+result = backround + textstyle + text + EOL
 //console.log(text)
 }
 var back = (backround) ? backround : this.backround
