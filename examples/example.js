@@ -26,6 +26,7 @@ function() {
     var r = false;
     a.forEach((d)=>{
       var g = (r) ? ", " : " ";
+      r = true;
     out += g + d;
     })
     home()
