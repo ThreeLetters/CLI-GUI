@@ -100,9 +100,10 @@ getNewLayer() {
   this.next ++;
   return this.next - 1
 }
-  createInfoBox(width,height,content,x,y) {
+  createInfoBox(width,height,content,x,y,callback) {
 if (!x) x = 0;
 if (!y) y = 0;
+
 var st = this.coords.toReal(x,y)
 var sta = st.x - Math.floor(width/2);
     var b = st.y - Math.floor(height/2);
@@ -110,7 +111,7 @@ var sta = st.x - Math.floor(width/2);
   if (this.mode != 3) this.prev = this.mode
     this.mode = 3;
 var h = this.getNewLayer()  
-    var box = new Files.Assets.Box(width,height,b,sta,false,h,this)
+    var box = new Files.Assets.Box(width,height,b,sta,false,h,this,callback)
 this.boxes[h] = box
     for (var i =0; i < height; i++) {
 var s = this.fill("",width);
