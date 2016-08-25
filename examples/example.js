@@ -1,6 +1,6 @@
 "use strict"
 
-const c = require('../lib/cligui.js');
+const c = require('../cligui.js');
 var CliGui = new c()
 var out = false;
 function home() {
@@ -16,9 +16,9 @@ function() {
   CliGui.prompt("Prompt","Type.",function(a) {
    out = "You inputed " + a;
     home()
-    return true;
+    
   })
-  return true;
+  
 },
 function() {
   CliGui.checkList("Checklist",["option0","option1","option2"],function(a) {
@@ -30,21 +30,21 @@ function() {
     out += g + d;
     })
     home()
-    return true;
+    
   })
-  return true
+  
 },
 function() {
   CliGui.list("list",["option0","option1","option2"],function(a) {
     out = "you selected " + a;
     home();
-    return true
+    
   })
-  return true
+  
 },
 function() {
   CliGui.createInfoBox(20,5,"This is a popup box!")
-  return true;
+  
 }
 ]
   
