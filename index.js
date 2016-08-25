@@ -1,4 +1,4 @@
-var cligui = new require('./cligui')()
+var cligui = new require('./lib/cligui')()
 
 module.exports = {
 list: cligui.list,
