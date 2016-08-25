@@ -1,3 +1,4 @@
+
 var c = require('./lib/cligui');
 var cligui = new c()
 
