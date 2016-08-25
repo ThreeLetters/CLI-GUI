@@ -13,6 +13,33 @@ this.option = 0;
 if (!this.options) this.genOpt()
   
 }
+generateOpt(opt) {
+  var a = this.top + this.height
+  var o = [];
+  var a = [];
+  var id = 0;
+  opt.forEach((opt)=>{
+    o.push({
+      opt: opt.opt,
+      onSelect: opt.onSelect
+    })
+    a.push(
+      SelectionInterface(" ",this.width,id,{
+        start: this.start,
+      opt: opt.opt,
+      width: this.width})
+      
+      
+    )
+    id ++;
+  })
+  this.main.layers[this.index][a] = {   len: this.width,width:this.width, defaultBG: '\x1b[0m\x1b[47m\x1b[30m', start: this.start ,selectonly: true, options:a}
+this.options = []
+  this.options = o;
+  
+  
+  
+}
 onKey(key) {
    if (key == '\u001B\u005B\u0041') {
         if (this.option > 0) { this.option --;
