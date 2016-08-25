@@ -1,6 +1,6 @@
 "use strict"
 const EOL = require('os').EOL;
-const Files = require('./Files.js')
+const Files = require('./lib/Files.js')
 module.exports = class cligui {
   
   constructor() {
