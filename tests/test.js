@@ -1,5 +1,5 @@
 "use strict"
 
-const CliGui = require('../index.js');
+const CliGui = require('../lib/cligui.js');
 
 CliGui.prompt("test title", "prompt test", function(a){throw a})
