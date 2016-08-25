@@ -1,0 +1,21 @@
+{
+  "name": "cli-gui",
+  "version": "1.0.0",
+  "description": "An easy way to have a graphical interface through command line",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AJS-development/CLI-GUI/tree/master"
+  },
+  "keywords": [
+    "graphical",
+    "interface",
+    "command",
+    "line"
+  ],
+  "author": "andrews54757",
+  "license": "Apache-2.0"
+}
