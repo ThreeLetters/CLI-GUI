@@ -13,9 +13,15 @@ this.cursor = {
   x: 0,
   y: 0
 }
+this.data = [];
+}
+update() {
+  
+  
 }
 init() {
-  
+  this.data = this.in.split("\n");
+this.update()
 }
 
 
