@@ -8,7 +8,6 @@ this.callback = callback;
 this.width = (width) ? width : this.main.width;
 this.height = (height) ? height : this.main.height;
 this.message = message;
-this.init()
 this.startline = 0;
 this.result = [];
 this.cursor = {
@@ -16,6 +15,7 @@ this.cursor = {
   y: 0
 }
 this.data = [];
+this.init()
 }
 fill(a,b,c) {
   return this.main.fill(a,b,c);
@@ -23,17 +23,24 @@ fill(a,b,c) {
 centerHor(a,b,c) {
   return this.main.centerHor(a,b,c);
 }
+addCursor(a,b) {
+if (this.cursor.y != b) return a;
+  return a.slice(0, this.cursor.x) + "\x1b[7m" + a.slice(this.cursor.x,this.cursor.x + 1) + "\x1b[0m\x1b[37m\x1b[40m" + a.slice(this.cursor.x + 1);
+
+}
 update() {
   var curr = 0;
   this.result[curr] = this.centerHor(this.message + " press Esc to exit",this.width)
-  curr ++;
-  for (var i = 0; i < this.height - 2) {
-    this.result[curr] = "\x1b[0m\x1b[37m\x1b[40m" + this.data[this.startline + i];
+  curr += 2;
+  for (var i = 0; i < this.height - 2; i++) {
+ // console.log(i,curr,this.height)
+    if (!this.data[this.startline + i]) this.data[this.startline + i] = "";
+    this.result[curr] = "\x1b[0m\x1b[37m\x1b[40m" + this.fill(this.addCursor(this.data[this.startline + i],i),this.width,this.data[this.startline + i].length);
     curr ++;
   }
-  this.result[this.height.length] = this.centerHor(this.cursor.x + " : " + this.cursor.y,this.width);
+  this.result[this.height - 1] = this.fill(this.cursor.x + " : " + this.cursor.y,this.width);
 }
-init() {
+init() { 
   this.data = this.in.split("\n");
 this.update()
 }
