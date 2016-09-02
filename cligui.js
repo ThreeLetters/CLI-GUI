@@ -23,6 +23,7 @@ this.inputHandler = new Files.InputHandler(this);
 this.util = new Files.Utilities(this)
 this.visual = new Files.VisualService(this);
 this.coords = new Files.Coords(this)
+this.editor = new Files.Assets.EditorInterface(this)
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
