@@ -9,6 +9,7 @@ this.width = (width) ? width : this.main.width;
 this.height = (height) ? height : this.main.height;
 this.message = message;
 this.init()
+this.startline = 0;
 this.result = [];
 this.cursor = {
   x: 0,
@@ -27,8 +28,10 @@ update() {
   this.result[curr] = this.centerHor(this.message + " press Esc to exit",this.width)
   curr ++;
   for (var i = 0; i < this.height - 2) {
-    
+    this.result[curr] = "\x1b[0m\x1b[37m\x1b[40m" + this.data[this.startline + i];
+    curr ++;
   }
+  this.result[this.height.length] = this.centerHor(this.cursor.x + " : " + this.cursor.y,this.width);
 }
 init() {
   this.data = this.in.split("\n");
