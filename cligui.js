@@ -23,7 +23,6 @@ this.inputHandler = new Files.InputHandler(this);
 this.util = new Files.Utilities(this)
 this.visual = new Files.VisualService(this);
 this.coords = new Files.Coords(this)
-this.editor = new Files.Assets.EditorInterface(this)
 this.stdin = process.stdin;
 this.stdin.setRawMode(true);
 this.stdin.resume();
@@ -100,6 +99,12 @@ getNewLayer() {
   this.layers[this.next] = [];
   this.next ++;
   return this.next - 1
+}
+editor(file) {
+  this.prepare()
+   this.stdin.resume();
+   this.mode = 5
+this.editor = new Files.Assets.EditorInterface(this,fs.readFileSync('./file',"utf8"),null,"test",this.width,this.height)
 }
   createInfoBox(width,height,content,x,y,callback) {
 if (!x) x = 0;
