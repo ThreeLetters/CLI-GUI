@@ -23,7 +23,28 @@ fill(a,b,c) {
 centerHor(a,b,c) {
   return this.main.centerHor(a,b,c);
 }
+onKey(key) {
+  if (key == '\u001B\u005B\u0041') { // up
+  this.cursor.y --;
+  } else
+   if (key == '\u001B\u005B\u0042') { // down
+   this.cursor.y ++;
+   } else
+   if (key == '\u001B\u005B\u0044') { // left
+     this.cursor.x --;
+   } else
+   if (key == '\u001B\u005B\u0043') { // right
+     this.cursor.x ++;
+   } else
+if (key == '\u000D') { // enter
+} else
+if (key == '\u007F') { // back
+} else {
+  
+}
+} 
 addCursor(a,b) {
+  if (a.length >= this.width) a = a.slice(0,this.width)
 if (this.cursor.y != b) return a;
   return a.slice(0, this.cursor.x) + "\x1b[7m" + a.slice(this.cursor.x,this.cursor.x + 1) + "\x1b[0m\x1b[37m\x1b[40m" + a.slice(this.cursor.x + 1);
 
