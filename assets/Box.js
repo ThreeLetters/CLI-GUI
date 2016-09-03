@@ -70,7 +70,7 @@ this.runOpt(this.option)
 }
 runOpt(opt) {
   if (!this.options[opt] || !this.options[opt].onSelect) return;
-  var b = this.options[opt].onSelect()
+  var b = this.options[opt].onSelect(this)
   if (b == "remove") return this.remove();
 }
 
