@@ -49,7 +49,7 @@ function() {
 },
 function() {
   CliGui.editor(__dirname + '/editme',function() {
-    out = "Check out the file " + __dirname + "/editme to see your edits"
+    out = "Check out the file ./examples/editme to see your edits"
     home()
   })
 }
