@@ -249,8 +249,8 @@ if (this.cursor.y > this.height) {
 }
   var curr = 0;
   this.result[curr] = this.centerHor(this.message + " press Esc to exit",this.width)
-  curr += 2;
-  for (var i = 0; i < this.height - 2; i++) {
+  curr += 1;
+  for (var i = 0; i < this.height - 3; i++) {
  // console.log(i,curr,this.height)
 var data = this.data[this.startline + i]
 var k = 0;
@@ -266,7 +266,7 @@ data = data.slice(0,this.width - 4) + " ->"
     this.result[curr] = {text: this.addCursor(this.fill(data,this.width),this.startline + i,k), textstyle: '\x1b[0m\x1b[37m\x1b[40m'};
     curr ++;
   }
-  this.result[this.height - 1] = this.fill("Ln " + (this.cursor.y + 1) +", Col " + (this.cursor.x + 1) + "     " + this.data.length + " lines      Y:" + this.y + "   H:" + this.height,this.width);
+  this.result[this.height - 2] = this.fill("Ln " + (this.cursor.y + 1) +", Col " + (this.cursor.x + 1) + "     " + this.data.length + " lines      Y:" + this.y + "   H:" + this.height,this.width);
 this.onupt(this.result)
 }
 init() { 
