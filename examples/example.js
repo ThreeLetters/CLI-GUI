@@ -50,7 +50,7 @@ function() {
 function() {
   CliGui.editor('./editme',function() {
     out = "Check out the file editme to see your edits"
-    home()
+    setTimeout(function() {home()},1000);
   })
 }
 ]
