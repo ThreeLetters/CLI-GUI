@@ -6,7 +6,7 @@ BGcheck: function(self) {
 if (this.id == self.option) return true; else return false;
 
 },
-BG: '\x1b[45m',
+BG: '\x1b[40m\x1b[37m',
 }
 
 for (var i in others) {
