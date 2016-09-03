@@ -100,11 +100,18 @@ getNewLayer() {
   this.next ++;
   return this.next - 1
 }
+removeEditor() {
+this.editor = null;
+this.prepare();
+}
 editor(file) {
   this.prepare()
    this.stdin.resume();
    this.mode = 5
-this.editor = new Files.Assets.EditorInterface(this,fs.readFileSync('./file',"utf8"),null,"test",this.width,this.height)
+this.editor = new Files.Assets.EditorInterface(this,require('fs').readFileSync(file,"utf8"),null,"Editing " + file,this.width,this.height,function(a) {
+this.current = a;
+this.update()
+}.bind(this))
 }
   createInfoBox(width,height,content,x,y,callback) {
 if (!x) x = 0;
