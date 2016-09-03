@@ -14,7 +14,8 @@
     "graphical",
     "interface",
     "command",
-    "line"
+    "line",
+    "text editor"
   ],
   "author": "andrews54757",
   "license": "Apache-2.0"
