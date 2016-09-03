@@ -47,19 +47,19 @@ var h = this.main.getNewLayer()
 var opt = [
 {
 opt: "[Save]",
-onSelect: function() {
-
+onSelect: function(a) {
+a.remove()
 this.callback(this.data.join("\n"))
 this.remove()
-return "remove"
+
 }.bind(this),
 },
 {
 opt: "[Dont save]", 
-onSelect: function () {
+onSelect: function (a) {
+  a.remove()
 this.callback(false)
 this.remove()
-return "remove"
 }.bind(this),
 },
 {
