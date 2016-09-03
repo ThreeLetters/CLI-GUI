@@ -21,6 +21,7 @@ var cligui = new CLIGUI()
 * checklist
 * prompts
 * popup boxes
+* Works for most operating systems
 
 ### Example
 ``node examples/example.js``
