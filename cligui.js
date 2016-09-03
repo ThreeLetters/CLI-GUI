@@ -58,6 +58,7 @@ stop() {
   this.prepare(true)
   this.fillscreen()
   this.visual.stop()
+  this.stdin.pause();
 }
 dataRecieved(key) {
 this.inputHandler.dataRecieved(key)
