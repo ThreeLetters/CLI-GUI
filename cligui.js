@@ -115,6 +115,7 @@ getNewLayer() {
 removeEditor() {
 this.editor = null;
 this.prepare();
+this.stdin.resume()
 }
 editor(file,call) {
   this.prepare()
