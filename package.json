@@ -1,6 +1,6 @@
 {
   "name": "cli-gui",
-  "version": "2.0.0",
+  "version": "2.5.0",
   "description": "An easy way to have a graphical interface through command line",
   "main": "cligui.js",
   "scripts": {
