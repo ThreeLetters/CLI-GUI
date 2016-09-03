@@ -9,7 +9,8 @@ var options = [
   {option: "prompt",description: "Typing interface"},
   {option: "checklist",description: "Checklist interface"},
   {option: "list",description: "List"},
-  {option: "Popup",description: "popup box"}
+  {option: "Popup",description: "popup box"},
+  {option: "Editor",description: "edit files"}
   ];
 var callbacks = [
 function() {
@@ -45,6 +46,12 @@ function() {
 function() {
   CliGui.createInfoBox(20,5,"This is a popup box!")
   
+},
+function() {
+  CliGui.editor('./editme',function() {
+    out = "Check out the file editme to see your edits"
+    home()
+  })
 }
 ]
   
