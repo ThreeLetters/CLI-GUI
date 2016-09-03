@@ -104,11 +104,15 @@ removeEditor() {
 this.editor = null;
 this.prepare();
 }
-editor(file) {
+editor(file,call) {
   this.prepare()
    this.stdin.resume();
    this.mode = 5
-this.editor = new Files.Assets.EditorInterface(this,require('fs').readFileSync(file,"utf8"),function(a) {if(a) require('fs').writeFileSync(file,a,"utf8")},"Editing " + file,this.width,this.height,function(a) {
+this.editor = new Files.Assets.EditorInterface(this,require('fs').readFileSync(file,"utf8"),function(a) {
+  if (call) return call(a)
+  if(a) require('fs').writeFileSync(file,a,"utf8")
+  
+},"Editing " + file,this.width,this.height,function(a) {
 this.current = a;
 this.update()
 }.bind(this))
