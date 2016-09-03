@@ -4,7 +4,8 @@ const Files = require('./lib/Files.js')
 module.exports = class cligui {
   
   constructor() {
-this.width = process.stdout.columns - 1  
+    this.buf = 0;
+this.width = process.stdout.columns - this.buf
    this.height = process.stdout.rows
 this.current = [];
 this.option = 0;
@@ -39,8 +40,18 @@ this.stdin.on('data', function(key){
 
     if (key == '\u0003') { process.exit(); }    // ctrl-c
 }.bind(this));
+init()
   }
-
+init() {
+ var plat =  require('os').platform()
+  if (plat == "win32") {
+    this.buf = 1;
+    this.selectstyle = "\x1b[47m\x1b[30m\x1b[4m"
+  } else {
+    this.selectstyle = "\x1b[7m"
+  }
+  this.prepare(true)
+}
 stop() {
   this.prepare(true)
   this.fillscreen()
@@ -151,7 +162,7 @@ this.update()
   }
 
   prepare(er) {
-this.width = process.stdout.columns - 1
+this.width = process.stdout.columns - this.buf
    this.height = process.stdout.rows
 this.current = [];
 this.option = 0;
