@@ -49,8 +49,9 @@ var opt = [
 opt: "[Save]",
 onSelect: function(a) {
 a.remove()
-this.callback(this.data.join("\n"))
 this.remove()
+this.callback(this.data.join("\n"))
+
 
 }.bind(this),
 },
@@ -58,8 +59,8 @@ this.remove()
 opt: "[Dont save]", 
 onSelect: function (a) {
   a.remove()
+  this.remove()
 this.callback(false)
-this.remove()
 }.bind(this),
 },
 {
