@@ -48,8 +48,8 @@ function() {
   
 },
 function() {
-  CliGui.editor('./editme',function() {
-    out = "Check out the file editme to see your edits"
+  CliGui.editor(__dirname + '/editme',function() {
+    out = "Check out the file " + __dirname + "/editme to see your edits"
     home()
   })
 }
