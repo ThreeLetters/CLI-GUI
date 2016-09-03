@@ -98,3 +98,37 @@ if (selected.indexOf(3) != -1) {} // 3
 
 cligui.checkList("checklist title",options,callbacks)
 ```
+
+
+Prompt
+
+
+```
+cligui.prompt("Prompt title", "prompt description", function(typed) {
+// callback
+})
+```
+
+
+Basic Popup Box
+
+
+```
+cligui.createInfoBox(30,5,"Contents of box",0,0,function() { // createInfoBox(width,height,contents,x,y,callback)
+// callback
+})
+```
+
+Coordinate system
+
+
+```
+(0,0) -> center
+(100,50) -> top right
+(-100,-50) -> bottom left
+
+X: -100 - 100
+
+Y: -50 - 50
+
+```
