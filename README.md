@@ -65,3 +65,36 @@ switch (selected) {
 
 cligui.list("menu name",objects,callbacks)
 ```
+
+
+Checklist
+
+
+```
+
+var objects = [
+"item0",
+"item1",
+"item2",
+{option: "item3",description: "You can add descriptions!",selected: true} // you can also have it selected by default
+]
+var callbacks = [
+function() {}, // item0
+function() {}, // item1
+function() {}, // item2
+function() {}  // item3
+]
+
+/* 
+The callbacks could also be:
+
+var callbacks = function(selected) { // selected would be a object (EG: [0,2,3] if 0,2 and 3 is selected)
+if (selected.indexOf(0) != -1) {} // 0
+if (selected.indexOf(1) != -1) {} // 1
+if (selected.indexOf(2) != -1) {} // 2
+if (selected.indexOf(3) != -1) {} // 3
+}
+*/
+
+cligui.checkList("checklist title",options,callbacks)
+```
