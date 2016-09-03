@@ -14,30 +14,40 @@ if (!this.options) this.genOpt()
   
 }
 generateOpt(opt) {
+/*
+uses
+
+option = {
+opt: [option name],
+onSelect: function()
+}
+
+*/
+
+
   var a = this.top + this.height
   var o = [];
-  var a = [];
+  var k = [];
   var id = 0;
-  opt.forEach((opt)=>{
+  opt.forEach((optt)=>{
     o.push({
-      opt: opt.opt,
-      onSelect: opt.onSelect
+      opt: optt.opt,
+      onSelect: optt.onSelect
     })
-    a.push(
-      SelectionInterface(" ",this.width,id,{
+
+    k.push(
+      SelectionInterface(" ",id,{
         start: this.start,
-      opt: opt.opt,
+      opt: optt.opt,
       width: this.width})
       
       
     )
     id ++;
   })
-  this.main.layers[this.index][a] = {   len: this.width,width:this.width, defaultBG: '\x1b[0m\x1b[47m\x1b[30m', start: this.start ,selectonly: true, options:a}
+  this.main.layers[this.index][a] = {   len: this.width,width:this.width, defaultBG: '\x1b[0m\x1b[47m\x1b[30m', start: this.start ,selectonly: true, options:k}
 this.options = []
   this.options = o;
-  
-  
   
 }
 onKey(key) {
