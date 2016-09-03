@@ -6,12 +6,12 @@ A simple way to have a graphical interface through command line
 
 
 ## Usage
->npm install cligui
+>npm install cli-gui
 
 
 #### Using it in your code
 ```
-var CLIGUI = require('cligui')
+var CLIGUI = require('cli-gui')
 var cligui = new CLIGUI()
 ```
 
