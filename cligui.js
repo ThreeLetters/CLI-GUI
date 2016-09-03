@@ -176,7 +176,7 @@ this.boxes = [];
 this.mode = false;
 this.layers = [];
 this.typed = "";
-// this.stdin.pause()
+ this.stdin.pause()
  if (!this.dontreset && !er) this.fillscreen()  
 this.dontreset = true
   }
