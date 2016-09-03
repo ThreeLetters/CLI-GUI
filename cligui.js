@@ -40,15 +40,17 @@ this.stdin.on('data', function(key){
 
     if (key == '\u0003') { process.exit(); }    // ctrl-c
 }.bind(this));
-init()
+this.init()
   }
 init() {
  var plat =  require('os').platform()
+ this.selectsyle = "\x1b[7m"
+    this.buf = 0;
   if (plat == "win32") {
     this.buf = 1;
-    this.selectstyle = "\x1b[47m\x1b[30m\x1b[4m"
+   this.selectsyle = "\x1b[47m\x1b[30m";
   } else {
-    this.selectstyle = "\x1b[7m"
+   
   }
   this.prepare(true)
 }
@@ -77,9 +79,7 @@ return this.visual.fillscreen()
 update() {
 return this.visual.update()
 }
-init() {
-return this.visual.init();
-}
+
 
 removeBox(id) {
 this.layers[id] = false;
@@ -177,6 +177,7 @@ this.typed = "";
 this.stdin = process.stdin;
 this.stdin.pause()
  if (!this.dontreset && !er) this.fillscreen()  
+this.dontreset = true
   }
   prompt(title,desc,callback) {
     this.prepare();
