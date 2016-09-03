@@ -240,7 +240,7 @@ if (this.noCursor) return a
 var x = (k) ? this.cursor.x - k : this.cursor.x
   // if (a.length >= this.width) a = a.slice(0,this.width)
 if (this.cursor.y != b || !this.cstate) return a;
-  return a.slice(0, x) + "\x1b[7m" + a.slice(x,x + 1) + "\x1b[0m\x1b[37m\x1b[40m" + a.slice(x + 1);
+  return a.slice(0, x) + this.main.selectsyle + a.slice(x,x + 1) + "\x1b[0m\x1b[37m\x1b[40m" + a.slice(x + 1);
 
 }
 update() {
