@@ -4,7 +4,7 @@ const Files = require('./lib/Files.js')
 module.exports = class cligui {
   
   constructor() {
-this.width = process.stdout.columns    
+this.width = process.stdout.columns - 1  
    this.height = process.stdout.rows
 this.current = [];
 this.option = 0;
@@ -16,6 +16,7 @@ this.boxes = [];
 this.mode = false;
 this.layers = [];
 this.typed = "";
+this.selectsyle = "";
 this.dontreset = false;
 this.textstyle = "\x1b[30m"
 this.backround = "\u001B[44m"
@@ -28,7 +29,7 @@ this.stdin.setRawMode(true);
 this.stdin.resume();
 this.stdin.setEncoding('utf8');
 process.stdout.on('resize', function() { 
-  this.width = process.stdout.columns    
+  this.width = process.stdout.columns - 1;
    this.height = process.stdout.rows
   this.update()
 }.bind(this))
@@ -150,7 +151,7 @@ this.update()
   }
 
   prepare(er) {
-this.width = process.stdout.columns    
+this.width = process.stdout.columns - 1
    this.height = process.stdout.rows
 this.current = [];
 this.option = 0;
@@ -237,7 +238,7 @@ id:option.id,
 BGcheck: function(self) {
 if (self.option == this.id) return true; else return false;
 },
-BG: "\x1b[7m",
+BG: this.selectsyle,
 }
 x++;
 })
@@ -247,7 +248,7 @@ id: this.options.length,
 BGcheck: function(self) {
 if (self.option == this.id) return true; else return false;
 },
-BG: "\x1b[7m",
+BG: this.selectsyle,
 }
  this.update()
 this.callbacks = callbacks;
@@ -288,7 +289,7 @@ option.text = this.fill(option.opt,this.width);
 option.BGcheck = function(self) {
 if (self.option == this.id) return true; else return false;
 }
-option.BG = "\x1b[7m";
+option.BG = this.selectsyle;
 this.current[x] = option 
 // console.log(x + " | " + this.current[x])
 });
