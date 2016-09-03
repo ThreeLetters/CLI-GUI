@@ -51,7 +51,7 @@ onSelect: function() {
 
 this.callback(this.data.join("\n"))
 this.remove()
-return "[remove]"
+return "remove"
 }.bind(this),
 },
 {
