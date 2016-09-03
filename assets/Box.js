@@ -39,7 +39,7 @@ onSelect: function()
       SelectionInterface(" ",id,{
         start: this.start,
       opt: optt.opt,
-      width: this.width})
+      width: this.width},this.main)
       
       
     )
@@ -83,7 +83,7 @@ genOpt() {
   this.main.layers[this.index][a] = {   len: this.width,width:this.width, defaultBG: '\x1b[0m\x1b[47m\x1b[30m', start: this.start ,selectonly: true, options:[SelectionInterface(this.main.centerHor("[Close]",this.width),0,{start: this.start,
    
       opt: "[Close]",
-      width: this.width})]}
+      width: this.width},this.main)]}
 this.options = []
   this.options[0] = {
     text: this.main.centerHor("[Close]",this.width),
