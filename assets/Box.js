@@ -18,9 +18,10 @@
 */
 const SelectionInterface = require('./sinterface.js')
 module.exports = class Box {
-constructor(width,height,top,start,options,index,main) {
+constructor(width,height,top,start,options,index,main,callback) {
 this.width = width;
 this.height = height;
+this.callback = callback;
 this.options = options;
 this.index = index;
 this.top = top
@@ -93,6 +94,7 @@ runOpt(opt) {
 
 remove() {
 this.main.removeBox(this.index)
+callback()
 }
 
 genOpt() {
