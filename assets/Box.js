@@ -94,7 +94,7 @@ runOpt(opt) {
 
 remove() {
 this.main.removeBox(this.index)
-if (callback) callback()
+if (this.callback) this.callback()
 }
 
 genOpt() {
