@@ -139,12 +139,14 @@ this.stdin.resume()
 editor(file,call) {
   this.prepare()
    this.stdin.resume();
+   var f= file.split("/")
+   f = f[f.length - 1]
    this.mode = 5
 this.editor = new Files.Assets.EditorInterface(this,require('fs').readFileSync(file,"utf8"),function(a) {
   if (call) call(a)
   if(a) require('fs').writeFileSync(file,a,"utf8")
   
-},"Editing " + file,this.width,this.height,function(a) {
+},"Editing " + f,this.width,this.height,function(a) {
 this.current = a;
 this.update()
 }.bind(this))
