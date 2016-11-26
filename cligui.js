@@ -146,7 +146,7 @@ this.editor = new Files.Assets.EditorInterface(this,require('fs').readFileSync(f
   if (call) call(a)
   if(a) require('fs').writeFileSync(file,a,"utf8")
   
-},"Editing " + f,this.width,this.height,function(a) {
+},"Editing " + f + ".",this.width,this.height,function(a) {
 this.current = a;
 this.update()
 }.bind(this))
