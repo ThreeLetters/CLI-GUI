@@ -194,7 +194,7 @@ this.cursor.x = 0;
 this.addY()
 
 } else
-if (key == '\u007F') { // back
+if (key == '\u007F' || key == '\u0008') { // back
 
 var data = this.data[this.cursor.y];
 if (!data && this.cursor.y != 0) {
